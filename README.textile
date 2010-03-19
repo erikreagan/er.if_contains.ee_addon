@@ -13,8 +13,7 @@ optionally supply data for if the string is not found
 
 *Returning TRUE only*
 
-<pre><code>
-{exp:if_contains needle="homepage" haystack="{page_body}"}
+<pre><code>{exp:if_contains needle="homepage" haystack="{page_body}"}
 
 This shows up only if "homepage" is found in "{page_body}"
 
@@ -23,8 +22,7 @@ This shows up only if "homepage" is found in "{page_body}"
 
 *Both TRUE and FALSE options*
 
-<pre><code>
-{exp:if_contains needle="homepage" haystack="{page_body}"}
+<pre><code>{exp:if_contains needle="homepage" haystack="{page_body}"}
 
 This shows up if "homepage" IS found in "{page_body}"
 
@@ -40,8 +38,7 @@ h2. Notes
 
 If your haystack contains single or double quotes this may cause an error. If you only have double quotes then you will want to wrap the haystack in single quotes and vise versa. For example
 
-<pre><code>
-{exp:if_contains needle="Hi" haystack="John said, "Hi, how are you?""}
+<pre><code>{exp:if_contains needle="Hi" haystack="John said, "Hi, how are you?""}
 
 true....
 
@@ -50,8 +47,7 @@ true....
 
 This will not work because the quotation of what John said actually cuts off the haystack variable. To get around this you could change it to this:
 
-<pre><code>
-{exp:if_contains needle="Hi" haystack='John said, "Hi, how are you?"'}
+<pre><code>{exp:if_contains needle="Hi" haystack='John said, "Hi, how are you?"'}
 
 true....
 
