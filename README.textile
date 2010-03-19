@@ -1,0 +1,59 @@
+h1. If Contains
+
+ExpressionEngine plugin that allows for a "contains" conditional as opposed to an "equals" or "doesn't equal" conditional, by "Erik Reagan":http://erikreagan.com
+
+h2. Requirements
+
+ExpressionEngine 1.6.x
+
+h2. Usage
+
+You can use this plugin to only display something if the string is found OR you can
+optionally supply data for if the string is not found
+
+*Returning TRUE only*
+
+<pre><code>
+{exp:if_contains needle="homepage" haystack="{page_body}"}
+
+This shows up only if "homepage" is found in "{page_body}"
+
+{/exp:if_contains}
+</code></pre>
+
+*Both TRUE and FALSE options*
+
+<pre><code>
+{exp:if_contains needle="homepage" haystack="{page_body}"}
+
+This shows up if "homepage" IS found in "{page_body}"
+
+{if_contains:else}
+
+This shows up if "homepage" IS NOT found in "{page_body}"
+
+{/exp:if_contains}
+</code></pre>
+
+
+h2. Notes
+
+If your haystack contains single or double quotes this may cause an error. If you only have double quotes then you will want to wrap the haystack in single quotes and vise versa. For example
+
+<pre><code>
+{exp:if_contains needle="Hi" haystack="John said, "Hi, how are you?""}
+
+true....
+
+{/exp:if_contains}
+</code></pre>
+
+This will not work because the quotation of what John said actually cuts off the haystack variable. To get around this you could change it to this:
+
+<pre><code>
+{exp:if_contains needle="Hi" haystack='John said, "Hi, how are you?"'}
+
+true....
+
+{/exp:if_contains}
+</code></pre>
