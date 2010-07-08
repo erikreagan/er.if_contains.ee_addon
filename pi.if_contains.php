@@ -1,4 +1,5 @@
 <?php
+// ini_set('display_errors',E_ALL);
 
 /**
  * If Contains
@@ -7,7 +8,7 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package IfContains
- * @version 1.0
+ * @version 1.1
  * @author Erik Reagan http://erikreagan.com
  * @copyright Copyright (c) 2010 Erik Reagan
  * @see http://erikreagan.com/projects/if-contains/
@@ -15,7 +16,7 @@
 
 $plugin_info       = array(
    'pi_name'        => 'If Contains',
-   'pi_version'     => '1.0',
+   'pi_version'     => '1.1',
    'pi_author'      => 'Erik Reagan',
    'pi_author_url'  => 'http://erikreagan.com',
    'pi_description' => 'Simple plugin that returns true or false on if a string contains a substring',
@@ -25,30 +26,44 @@ $plugin_info       = array(
 class If_contains
 {
 
-   var $return_data  = "";
+	var $return_data  = "";
 
-   function If_contains()
-   {
-      global $TMPL;
+	function If_contains()
+	{
+		global $TMPL;
 
-      $needle = $TMPL->fetch_param('needle');
-      $haystack = $TMPL->fetch_param('haystack');
-      $true_false = preg_split("/{if_contains:else}/",$TMPL->tagdata);
+		$boolean = FALSE;      
+		$needles = explode('|',$TMPL->fetch_param('needle'));
+		$haystack = $TMPL->fetch_param('haystack');
+		$true_false = preg_split("/{if_contains:else}/",$TMPL->tagdata);
+
+		
+		foreach ($needles as $needle) {
+			if (strpos($haystack,$needle) !== FALSE)
+			{
+				$boolean = TRUE;
+				break;
+			}
+		}
       
-      $this->return_data = (strpos($haystack,$needle) !== FALSE) ? $true_false[0] : $true_false[1];
+		$this->return_data = ($boolean) ? $true_false[0] : $true_false[1];
 
-   }
+	}
+	// End If_contains()
+	
+	
+	
+	
+	/**
+	 * Plugin Usage
+	 */
 
-   /**
-    * Plugin Usage
-    */
+	// This function describes how the plugin is used.
+	//  Make sure and use output buffering
 
-   // This function describes how the plugin is used.
-   //  Make sure and use output buffering
-
-   function usage()
+	function usage()
    {
-      ob_start(); 
+		ob_start(); 
 ?>
 
 You can use this plugin to only display something if the string is found OR you can
@@ -76,6 +91,16 @@ This shows up if "homepage" IS NOT found in "{page_body}"
 {/exp:if_contains}
 
 
+Multiple Needles
+=====================
+You can add multiple needles by piping your options together like this:
+{exp:if_contains needle="homepage|about|contact" haystack="{uri}"}
+
+This shows up only if either "homepage", "about", or "contact" is found in "{uri}"
+
+{/exp:if_contains}
+
+
 
 Notes
 =====================
@@ -98,13 +123,13 @@ true....
 {/exp:if_contains}
 
 <?php
-      $buffer         = ob_get_contents();
+		$buffer         = ob_get_contents();
 
-      ob_end_clean(); 
+		ob_end_clean(); 
 
-      return $buffer;
-   }
-   // END
+		return $buffer;
+	}
+	// End usage()
 
 }
 

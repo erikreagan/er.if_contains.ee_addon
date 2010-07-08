@@ -14,9 +14,9 @@ optionally supply data for if the string is not found
 *Returning TRUE only*
 
 <pre><code>{exp:if_contains needle="homepage" haystack="{page_body}"}
-
+	
 This shows up only if "homepage" is found in "{page_body}"
-
+	
 {/exp:if_contains}
 </code></pre>
 
@@ -33,6 +33,16 @@ This shows up if "homepage" IS NOT found in "{page_body}"
 {/exp:if_contains}
 </code></pre>
 
+*Multiple Needles*
+
+You can add multiple needles by piping your options together like this:
+
+<pre><code>{exp:if_contains needle="homepage|about|contact" haystack="{uri}"}
+
+This shows up only if either "homepage", "about", or "contact" is found in "{uri}"
+
+{/exp:if_contains}
+</code></pre>
 
 h2. Notes
 
@@ -53,3 +63,15 @@ true....
 
 {/exp:if_contains}
 </code></pre>
+
+
+
+h2. Change Log
+
++*1.1, July 8, 2010*+
+
+* Feature: Added multiple needle options by piping (needle="one|two|three|etc")
+
+*1.0, March 19, 2010*
+
+* Initial Release
