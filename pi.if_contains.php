@@ -8,7 +8,7 @@
  * system/plugins/ folder in your ExpressionEngine installation.
  *
  * @package IfContains
- * @version 1.1
+ * @version 1.2
  * @author Erik Reagan http://erikreagan.com
  * @copyright Copyright (c) 2010 Erik Reagan
  * @see http://erikreagan.com/projects/if-contains/
@@ -16,7 +16,7 @@
 
 $plugin_info       = array(
    'pi_name'        => 'If Contains',
-   'pi_version'     => '1.1',
+   'pi_version'     => '1.2',
    'pi_author'      => 'Erik Reagan',
    'pi_author_url'  => 'http://erikreagan.com',
    'pi_description' => 'Simple plugin that returns true or false on if a string contains a substring',
@@ -30,13 +30,25 @@ class If_contains
 
 	function If_contains()
 	{
-		global $TMPL;
+		
+		if (version_compare(APP_VER, '2', '<'))
+      		{
+         
+			global $TMPL;
+			$boolean = FALSE;
+			$needles = explode('|',$TMPL->fetch_param('needle'));
+			$haystack = $TMPL->fetch_param('haystack');
+			$true_false = preg_split("/{if_contains:else}/",$TMPL->tagdata);
 
-		$boolean = FALSE;      
-		$needles = explode('|',$TMPL->fetch_param('needle'));
-		$haystack = $TMPL->fetch_param('haystack');
-		$true_false = preg_split("/{if_contains:else}/",$TMPL->tagdata);
-
+        	} else {
+         		
+			$this->EE =& get_instance();
+			$boolean = FALSE;
+			$needles = explode('|',$this->EE->TMPL->fetch_param('needle'));
+			$haystack = $this->EE->TMPL->fetch_param('haystack');
+			$true_false = preg_split("/{if_contains:else}/",$this->EE->TMPL->tagdata);
+			
+		}
 		
 		foreach ($needles as $needle) {
 			if (strpos($haystack,$needle) !== FALSE)
