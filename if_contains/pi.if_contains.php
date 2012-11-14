@@ -48,16 +48,24 @@ class If_contains
 			$true_false = preg_split("/{if_contains:else}/", $this->EE->TMPL->tagdata);
 		}
 
+		// Initial setup of true/false values
+		$true  = $true_false[0];
+		$false = isset($true_false[1]) ? $true_false[1] : '' ;
+
 		foreach ($needles as $needle)
 		{
-			if (strpos($haystack, $needle) !== FALSE)
+			if ($needle == '')
+			{
+				continue;
+			}
+			else if (strpos($haystack, $needle) !== FALSE)
 			{
 				$boolean = TRUE;
 				break;
 			}
 		}
 
-		$this->return_data = ($boolean) ? $true_false[0] : $true_false[1];
+		$this->return_data = ($boolean) ? $true : $false ;
 
 	}
 	// End If_contains()
