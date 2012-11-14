@@ -3,7 +3,7 @@
 
 /**
  * If Contains
- * 
+ *
  * This file must be placed in the
  * system/plugins/ folder in your ExpressionEngine installation.
  *
@@ -14,58 +14,57 @@
  * @see http://erikreagan.com/projects/if-contains/
  */
 
-$plugin_info       = array(
-   'pi_name'        => 'If Contains',
-   'pi_version'     => '1.2',
-   'pi_author'      => 'Erik Reagan',
-   'pi_author_url'  => 'http://erikreagan.com',
-   'pi_description' => 'Simple plugin that returns true or false on if a string contains a substring',
-   'pi_usage'       => If_contains::usage()
-   );
+$plugin_info = array(
+	'pi_name'        => 'If Contains',
+	'pi_version'     => '1.2',
+	'pi_author'      => 'Erik Reagan',
+	'pi_author_url'  => 'http://erikreagan.com',
+	'pi_description' => 'Simple plugin that returns true or false on if a string contains a substring',
+	'pi_usage'       => If_contains::usage()
+);
 
 class If_contains
 {
 
-	var $return_data  = "";
+	var $return_data = '';
 
 	function If_contains()
 	{
-		
-		if (version_compare(APP_VER, '2', '<'))
-      		{
-         
-			global $TMPL;
-			$boolean = FALSE;
-			$needles = explode('|',$TMPL->fetch_param('needle'));
-			$haystack = $TMPL->fetch_param('haystack');
-			$true_false = preg_split("/{if_contains:else}/",$TMPL->tagdata);
 
-        	} else {
-         		
-			$this->EE =& get_instance();
-			$boolean = FALSE;
-			$needles = explode('|',$this->EE->TMPL->fetch_param('needle'));
-			$haystack = $this->EE->TMPL->fetch_param('haystack');
-			$true_false = preg_split("/{if_contains:else}/",$this->EE->TMPL->tagdata);
-			
+		if (version_compare(APP_VER, '2', '<'))
+		{
+			global $TMPL;
+			$boolean    = FALSE;
+			$needles    = explode('|', $TMPL->fetch_param('needle'));
+			$haystack   = $TMPL->fetch_param('haystack');
+			$true_false = preg_split("/{if_contains:else}/", $TMPL->tagdata);
 		}
-		
-		foreach ($needles as $needle) {
-			if (strpos($haystack,$needle) !== FALSE)
+		else
+		{
+			$this->EE =& get_instance();
+			$boolean    = FALSE;
+			$needles    = explode('|', $this->EE->TMPL->fetch_param('needle'));
+			$haystack   = $this->EE->TMPL->fetch_param('haystack');
+			$true_false = preg_split("/{if_contains:else}/", $this->EE->TMPL->tagdata);
+		}
+
+		foreach ($needles as $needle)
+		{
+			if (strpos($haystack, $needle) !== FALSE)
 			{
 				$boolean = TRUE;
 				break;
 			}
 		}
-      
+
 		$this->return_data = ($boolean) ? $true_false[0] : $true_false[1];
 
 	}
 	// End If_contains()
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Plugin Usage
 	 */
@@ -75,7 +74,7 @@ class If_contains
 
 	function usage()
    {
-		ob_start(); 
+		ob_start();
 ?>
 
 You can use this plugin to only display something if the string is found OR you can
@@ -135,9 +134,9 @@ true....
 {/exp:if_contains}
 
 <?php
-		$buffer         = ob_get_contents();
+		$buffer = ob_get_contents();
 
-		ob_end_clean(); 
+		ob_end_clean();
 
 		return $buffer;
 	}
